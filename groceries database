@@ -1,0 +1,189 @@
+from tkinter import *
+from tkinter.ttk import *
+import sqlite3
+
+conn = sqlite3.connect('database.db')
+
+c = conn.cursor()
+
+
+root = Tk()
+
+
+def submit_data():
+    conn = sqlite3.connect('lebensmittel.db')
+    c = conn.cursor()
+    
+    c.execute(""""INSERT INTO lebensmittel VALUES (
+                                                :barcode_gui,
+                                                :hersteller_gui,
+                                                :lebensmittelname_gui,
+                                                :inhaltsmenge_gui,
+                                                :maßeinheit_gui,
+                                                :menge_muell_gui,
+                                                :menge_kj_gui,
+                                                :menge_kcal_gui,
+                                                :menge_fett_gui,
+                                                :menge_ges_fett_gui,
+                                                :menge_kohlenhydrate_gui,
+                                                :menge_zucker_gui,
+                                                :menge_eiweiss_gui,
+                                                :menge_salz_gui
+                                                )""",
+              {
+                  'barcode_gui': barcode_gui.get(),
+                  'hersteller_gui': hersteller_gui.get(),
+                  'lebensmittelname_gui':lebensmittelname_gui.get(),
+                  'inhaltsmenge_gui': inhaltsmenge_gui.get(),
+                  'maßeinheit_gui': maßeinheit_gui.get(),
+                  'menge_muell_gui': menge_muell_gui.get(),
+                  'menge_kj_gui': menge_kj_gui.get(),
+                  'menge_kcal_gui': menge_kcal_gui.get(),
+                  'menge_fett_gui': menge_fett_gui.get(),
+                  'menge_ges_fett_gui': menge_ges_fett_gui.get(),
+                  'menge_kohlenhydrate_gui': menge_kohlenhydrate_gui.get(),
+                  'menge_zucker_gui': menge_zucker_gui.get(),
+                  'menge_eiweiss_gui': menge_eiweiss_gui.get(),
+                  'menge_salz_gui': menge_salz_gui.get()
+                  })
+    
+    
+    conn.commit()
+    conn.close()
+    
+    barcode_gui.delete(0, END)
+    hersteller_gui.delete(0, END)
+    lebensmittelname_gui.delete(0, END)
+    inhaltsmenge_gui.delete(0, END)
+    maßeinheit_gui.delete(0, END)
+    menge_muell_gui.delete(0, END)
+    menge_kj_gui.delete(0, END)
+    menge_kcal_gui.delete(0, END)
+    menge_fett_gui.delete(0, END)
+    menge_ges_fett_gui.delete(0, END)
+    menge_kohlenhydrate_gui.delete(0, END)
+    menge_zucker_gui.delete(0, END)
+    menge_eiweiss_gui.delete(0, END)
+    menge_salz_gui.delete(0, END)
+
+def show_entries_in_new_window():
+    newWindow = Toplevel(root)
+    newWindow.title('Datenbanken Einträge')
+    newWindow.geometry('900x500')
+    
+    
+    conn = sqlite3.connect('lebensmittel.db')
+    c = conn.cursor()
+    
+    c.execute("SELECT * FROM lebensmittelDB ORDER BY hersteller")
+    entries = c.fetchall()
+    
+    
+    return_entries = ''
+    for entry in entries:
+        return_entries += str(entry) + '\n\n'
+    
+    
+    entry_label = Label(newWindow, text=return_entries)
+    entry_label.pack()
+
+        
+    conn.commit()
+    conn.close()
+     
+barcode_gui = Entry(root, width=30)
+barcode_gui.grid(row=0, column=1, padx=10, pady=2)
+
+hersteller_gui = Entry(root, width=30)
+hersteller_gui.grid(row=1, column=1, padx=10, pady=2)
+
+lebensmittelname_gui = Entry(root, width=30)
+lebensmittelname_gui.grid(row=2, column=1, padx=10, pady=2)
+
+inhaltsmenge_gui = Entry(root, width=30)
+inhaltsmenge_gui.grid(row=3, column=1, padx=10, pady=2)
+
+maßeinheit_gui = Entry(root, width=30)
+maßeinheit_gui.grid(row=4, column=1, padx=10, pady=2)
+
+menge_muell_gui = Entry(root, width=30)
+menge_muell_gui.grid(row=5, column=1, padx=10, pady=2)
+
+menge_kj_gui = Entry(root, width=30)
+menge_kj_gui.grid(row=6, column=1, padx=10, pady=2)
+
+menge_kcal_gui = Entry(root, width=30)
+menge_kcal_gui.grid(row=7, column=1, padx=10, pady=2)
+
+menge_fett_gui = Entry(root, width=30)
+menge_fett_gui.grid(row=8, column=1, padx=10, pady=2)
+
+menge_ges_fett_gui = Entry(root, width=30)
+menge_ges_fett_gui.grid(row=9, column=1, padx=10, pady=2)
+
+menge_kohlenhydrate_gui = Entry(root, width=30)
+menge_kohlenhydrate_gui.grid(row=10, column=1, padx=10, pady=2)
+
+menge_zucker_gui = Entry(root, width=30)
+menge_zucker_gui.grid(row=11, column=1, padx=10, pady=2)
+
+menge_eiweiss_gui = Entry(root, width=30)
+menge_eiweiss_gui.grid(row=12, column=1, padx=10, pady=2)
+
+menge_salz_gui = Entry(root, width=30)
+menge_salz_gui.grid(row=13, column=1, padx=10, pady=2)
+
+#---------------------------------------------------
+
+
+barcode_label = Label(root, text='Barcode', width=30, anchor='e')
+barcode_label.grid(row=0, column=0)
+
+hersteller_label = Label(root, text='Hersteller', width=30, anchor='e')
+hersteller_label.grid(row=1, column=0)
+
+lebensmittelname_label = Label(root, text='Lebensmittelname', width=30, anchor='e')
+lebensmittelname_label.grid(row=2, column=0)
+
+inhaltsmenge_label = Label(root, text='Inhaltsmenge', width=30, anchor='e')
+inhaltsmenge_label.grid(row=3, column=0)
+
+maßeinheit_label = Label(root, text='Maßeinheit', width=30, anchor='e')
+maßeinheit_label.grid(row=4, column=0)
+
+menge_muell_label = Label(root, text='Menge Müll', width=30, anchor='e')
+menge_muell_label.grid(row=5, column=0)
+
+menge_kj_label = Label(root, text='Menge Kilojoule', width=30, anchor='e')
+menge_kj_label.grid(row=6, column=0)
+
+menge_kcal_label = Label(root, text='Menge Kilokalorien', width=30, anchor='e')
+menge_kcal_label.grid(row=7, column=0)
+
+menge_fett_label = Label(root, text='Menge Fett', width=30, anchor='e')
+menge_fett_label.grid(row=8, column=0)
+
+menge_ges_fett_label = Label(root, text='Menge gesättigter Fettsäuren', width=30, anchor='e')
+menge_ges_fett_label.grid(row=9, column=0)
+
+menge_kohlenhydrate_label = Label(root, text='Menge Kohlenhydrate', width=30, anchor='e')
+menge_kohlenhydrate_label.grid(row=10, column=0)
+
+menge_zucker_label = Label(root, text='Menge Zucker', width=30, anchor='e')
+menge_zucker_label.grid(row=11, column=0)
+
+menge_eiweiss_label = Label(root, text='Menge Eiweiß', width=30, anchor='e')
+menge_eiweiss_label.grid(row=12, column=0)
+
+menge_salz_label = Label(root, text='Menge Salz', width=30, anchor='e')
+menge_salz_label.grid(row=13, column=0)
+
+
+submit_btn = Button(root, text='Neues Produkt hinzufügen', command=submit_data)
+submit_btn.grid(row=14, column=0, columnspan=2, pady=10, padx=10)
+
+show_entries_btn = Button(root, text='Einträge anzeigen', command=show_entries_in_new_window)
+show_entries_btn.grid(row=15, column=0, columnspan=2, pady=10, padx=10)
+ 
+
+root.mainloop()
